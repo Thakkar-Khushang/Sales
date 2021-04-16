@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <input type="file"
+       id="images" name="images"
+       accept="image/png, image/jpg" multiple onchange="loadFile(event)"/> -->
+       <input type="file" id="fileElem" onchange="handleFiles(event)" multiple accept="image/*">
+       <div id="fileList">
+        <p>No files selected!</p>
+      </div>
+    <script> 
+        fileList = document.getElementById("fileList");
+        function handleFiles(event) {
+            if (!event.target.files.length) {
+                fileList.innerHTML = "<p>No files selected!</p>";
+            } else {
+            fileList.innerHTML = "";
+            const list = document.createElement("ul");
+            fileList.appendChild(list);
+            for (let i = 0; i < event.target.files.length; i++) {
+            const li = document.createElement("li");
+            list.appendChild(li);
+
+            const img = document.createElement("img");
+            img.src = URL.createObjectURL(event.target.files[i]);
+            console.log(img.src)
+            img.height = 60;
+            img.onload = function() {
+                URL.revokeObjectURL(this.src);
+            }
+            li.appendChild(img);
+            const info = document.createElement("span");
+            info.innerHTML = event.target.files[i].name + ": " + event.target.files[i].size + " bytes";
+            li.appendChild(info);
+            }
+        }
+        }
+    </script>
+</body>
+</html>
